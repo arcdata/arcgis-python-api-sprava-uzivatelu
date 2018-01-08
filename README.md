@@ -99,7 +99,7 @@ Několik příkladů na zpracování seznamu uživatelů:
 	  if r.name == 'Student1':
 		 vybranaRole = r
    ```
-   Nyni můžeme projít seznam uživatelů a vybrat ty, kteří mají přiřazenou vybranou roli. Pozor, v seznamu uživatelů musíme porovnávat ID role, ne její jméno!
+   Nyní můžeme projít seznam uživatelů a vybrat ty, kteří mají přiřazenou vybranou roli. Pozor, vlastnost `.role` uživatele musíme porovnávat s vlastností `.role_id` objektu `Role`, nikoliv s vlastností `.role_name`.
    ```python
    zpracujUzivatele = [u for u in uzivatele if u.role == vybranaRole.role_id]
    ```
@@ -110,7 +110,7 @@ Několik příkladů na zpracování seznamu uživatelů:
    for r in portal.users.roles.all():
 	  if 'portal:user:shareToPublic' in r.privileges or 'features:user:edit' in r.privileges:
 		 vybraneRoleID.append(r.role_id)
-   zpracujUzivatele = [u.username for u in uzivatele if u.role in vybraneRole]
+   zpracujUzivatele = [u.username for u in uzivatele if u.role in vybraneRoleID]
    ```
    Podrobnosti najdete v [dokumentaci](https://developers.arcgis.com/python/guide/accessing-and-managing-users)
 
