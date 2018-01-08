@@ -51,8 +51,12 @@ Například chceme, aby získaný seznam neobsahoval aktuálně přihlášeného
 uzivatele = portal.users.search(query='!student03 & !{}'.format(adminName))
 ```
 
-Častější případ je, že chceme zpracovat pouze uživatele, kteří splňují složitější kritéria, například je budeme chtít filtrovat podle znaků v uživatelském jméně, podle členství ve skupině nebo podle přiřazení určité role. V takových případech nestačí parametr `query` a bude vhodnější do metody `search()` nevkládat žádný parametr, tj. získat seznam všech členů, a ten následně zpracovat.
-Několik příkladů:
+Častější případ je, že chceme zpracovat pouze uživatele, kteří splňují složitější kritéria, například je budeme chtít filtrovat podle znaků v uživatelském jméně, podle členství ve skupině nebo podle přiřazení určité role. V takových případech nestačí parametr `query` a bude vhodnější do metody `search()` nevkládat žádný parametr, tj. získat seznam všech členů:
+```python
+uzivatele = portal.users.search()
+```
+
+Několik příkladů na zpracování seznamu uživatelů:
 
 1. Výběr uživatelů podle jména
 
@@ -74,10 +78,12 @@ Několik příkladů:
    vybraneSkupiny = [sk for sk in portal.groups.search() if sk.title in hledejSkupiny]
    clenoveSkupin = []
    for skupina in vybraneSkupiny:
-	  for clen in skupina.get_members()['users']:
+	  for clen in skupina.get_members()['users']: # viz poznamka
 		 if not clen in clenoveSkupin:
 			clenoveSkupin.append(clen)
 	```
+   > **Poznámka**: metoda .get_members() vrací [slovník, v němž klíčem je vztah člena ke skupině](http://esri.github.io/arcgis-python-api/apidoc/html/arcgis.gis.toc.html?highlight=get_members#arcgis.gis.Group.get_members)
+
    Takto získaný seznam clenove obsahuje uživatelská jména jako řetězce. Proto musíme ještě získat seznam objektů těchto uživatelů:
    ```python
    zpracujUzivatele = [u for u in uzivatele if u.username in clenoveSkupin]
@@ -147,7 +153,7 @@ V následující ukázce všem uživatelům ze získaného seznamu
    - uživatel 'geo_student02' má heslo 'st_Geo-02' a chceme je změnit na 'studentGeo-02'
    - atd.
 
-   POZOR, také předpokládáme, že uživatel si heslo sám nezměnil!
+   POZOR, funkce .reset() vyžaduje znalost aktuálního hesla! Zde předpokládáme, že si uživatel heslo sám nezměnil.
 
    ```python
    def zmenHeslo(uziv, staryZakladHesla, novyZakladHesla):
