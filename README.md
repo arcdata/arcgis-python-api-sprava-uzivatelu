@@ -16,7 +16,7 @@ Pro vytvoření skriptu automatizujícího práci s Portálem je třeba pythonov
 ### Začínáme vytvářet skript
 
 Pro práci s funkcemi balíčku `arcgis` je třeba používat takové prostředí Pythonu, které je obsluhováno prostřednictvím manažeru balíčků v rámci instalace ArcGIS Pro, tedy např. interaktivní okno Pythonu v ArcGIS Pro, Python IDLE nebo webové prostředí Jupyter notebooks, které je vhodné pro interaktivní práci. Pro další výklad nezáleží na tom které prostředí použijeme.
-> **Poznámka:** pokud pro začátek chceme použít základní prostředí Python IDLE, musíme použít to, které se nachází v instalaci ArcGIS Pro, typicky `C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\Scripts\idle.exe`, nikoliv to pro aplikaci ArcMap!
+> **Poznámka:** pokud pro začátek chceme použít základní prostředí Python IDLE, musíme použít to, které se nachází v instalaci ArcGIS Pro, typicky `C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\Scripts\idle.exe`, nikoliv to, které je určeno pro aplikaci ArcMap!
 
 ### Ukázky funkcí
 
@@ -55,6 +55,7 @@ uzivatele = portal.users.search(query='!student03 & !{}'.format(adminName))
 Několik příkladů:
 
 1. Výběr uživatelů podle jména
+
    Pro snazší správu pojmenovaných uživatelů je vhodné, když jejich uživatelská jména sestavujeme podle schématu. Například první tři písmena představují zkratku studijního oboru, např. 'geo\_student01', 'bio\_student01' apod. Pro výběr uživatelů studijního oboru geo, tj. těch, jejichž uživatelské jméno začíná na znaky 'geo\_', pak provedeme jednoduše třeba takto:
    ```python
    zpracujUzivatele = [u for u in uzivatele if u.username.startswith('geo_')]
@@ -66,6 +67,7 @@ Několik příkladů:
    ```
 
 2. Výběr podle příslušnosti do skupin
+
    Například chceme vybrat uživatele, kteří jsou členy skupin pojmenovaných 'školení A' nebo 'projekt 1', ale pouze ty, kteří nejsou vlastníky těchto skupin.
    ```python
    hledejSkupiny = ['školení A','projekt 1']
@@ -82,6 +84,7 @@ Několik příkladů:
    ```
 
 3. Výběr podle uživatelských rolí
+
    Výběr uživatelů podle přiřazených uživatelských rolí je již poněkud složitější záležitostí a přesahuje rámec tohoto stručného návodu. Proto zde uvedeme jen nástin postupu na jednoduchém příkladu:
    Předpokládejme, že chceme získat seznam všech uživatelů, kteří mají přiřazenu uživatelskou roli pojmenovanou 'Student1'.
    Nejprve je třeba projít seznam všech rolí v Portálu, tj. objektů `arcgis.gis.Role`, a vybrat požadovanou:
@@ -107,6 +110,7 @@ Několik příkladů:
 
 
 4. Výběr podle dostupných kreditů
+
    Chceme vybrat ty uživatele, kterým zůstává k dispozici méně než 1/10 přiřazených kreditů:
    ```python
    zpracujUzivatele = [u for u in uzivatele if u.availableCredits < u.assignedCredits / 10]
@@ -123,6 +127,7 @@ V následující ukázce všem uživatelům ze získaného seznamu
 - změníme jazykovou verzi webových stránek jejich účtu.
 
 1. Smazání obsahu
+
    ```python
    def smazObsah(uziv):
 	  obsah = portal.content.search("owner:"+uziv.username)
@@ -136,6 +141,7 @@ V následující ukázce všem uživatelům ze získaného seznamu
 
 
 2. Změna hesla
+
    V tomto případě bude záležet na tom, jakým způsobem máme vytvořená hesla. Zde předpokládáme, že uživatelské jméno každého uživatele končí dvoumístným číslem uživatele a hesla všech uživatelů mají stejný základ a na konci hesla je také číslo uživatele. Například:
    - uživatel 'geo_student01' má heslo 'st_Geo-01' a chceme je změnit na 'studentGeo-01'
    - uživatel 'geo_student02' má heslo 'st_Geo-02' a chceme je změnit na 'studentGeo-02'
@@ -169,6 +175,7 @@ V následující ukázce všem uživatelům ze získaného seznamu
    ```
 
 4. Vlastní zpracování
+
    Na závěr provedeme vlastní zpracování jednotlivých uživatelů, například:
 
    ```python
@@ -212,11 +219,10 @@ Přidání nových uživatelů je dobře popsáno v [dokumentaci](https://develo
 
 Další možné změny v nastavení Portálu a pojmenovaných uživatelů jsou uvedeny v [dokumentaci](https://developers.arcgis.com/python/guide/).
 
-V případě, že byste měli zájem, abychom vám pomohli s řešením automatizované správy Vaší organizace ArcGIS Online nebo Portal for ArcGIS, obraťte se na nás a rádi Vám v rámci konzultačních služeb poradíme či vytvoříme skripty na míru.
+V případě, že byste měli zájem, abychom vám pomohli s řešením automatizované správy Vaší organizace ArcGIS Online nebo Portal for ArcGIS, [obraťte se na nás](mailto:sluzby@arcdata.cz) a rádi Vám v rámci konzultačních služeb poradíme či vytvoříme skripty na míru.
 
 
 ### Užitečné odkazy
 - [Přehled nápovědy](https://developers.arcgis.com/python/guide/)
 - [Příklady skriptů](https://developers.arcgis.com/python/sample-notebooks/)
 - [Referenční příručka](http://esri.github.io/arcgis-python-api/apidoc/html/)
-
